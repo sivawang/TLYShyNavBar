@@ -322,9 +322,13 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
         } else {
             visibleTop = MAX(maxNavY, maxExtensionY);
         }
-        if (visibleTop == self.statusBarController.calculateTotalHeightRecursively) {
+        if (visibleTop <= self.statusBarController.calculateTotalHeightRecursively) {
             if ([self.delegate respondsToSelector:@selector(shyNavBarManagerDidBecomeFullyContracted:)]) {
                 [self.delegate shyNavBarManagerDidBecomeFullyContracted:self];
+            }
+        } else if (visibleTop > self.statusBarController.calculateTotalHeightRecursively) {
+            if ([self.delegate respondsToSelector:@selector(shyNavBarManagerDidLeaveFullyContracted:)]) {
+                [self.delegate shyNavBarManagerDidLeaveFullyContracted:self];
             }
         }
 
